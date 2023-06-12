@@ -1,41 +1,35 @@
 {
-	"schemaVersion": 1,
-	"id": "mehrad-config",
-	"version": "${version}",
-	"name": "Mehrad Config",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/mehrad-config/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"ir.mehradn.mehradconfig.ExampleMod"
-		],
-		"client": [
-			"ir.mehradn.mehradconfig.ExampleModClient"
-		]
-	},
-	"mixins": [
-		"mehrad-config.mixins.json",
-		{
-			"config": "mehrad-config.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.14.21",
-		"minecraft": "~1.20",
-		"java": ">=17",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "mehrad-config",
+  "version": "${version}",
+  "name": "Mehrad Config",
+  "description": "A simple looking, instance based config library for minecraft.",
+  "authors": [
+    "Mehrad Nayyeri"
+  ],
+  "contact": {
+    "homepage": "https://github.com/MehradN/MehradConfig",
+    "sources": "https://github.com/MehradN/MehradConfig",
+    "issues": "https://github.com/MehradN/MehradConfig/issues"
+  },
+  "license": "GPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "preLaunch": [
+      "ir.mehradn.mehradconfig.MehradConfigPreLaunch"
+    ]
+  },
+  "mixins": [
+    "mehrad-config.mixins.json",
+    {
+      "config": "mehrad-config.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "java": ">=17",
+    "minecraft": "~1.20",
+    "fabricloader": ">=0.14.21",
+    "fabric-api": ">=0.83.0+1.20"
+  }
 }
