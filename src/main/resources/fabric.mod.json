@@ -14,11 +14,6 @@
   },
   "license": "GPL-3.0",
   "environment": "*",
-  "entrypoints": {
-    "preLaunch": [
-      "ir.mehradn.mehradconfig.MehradConfigPreLaunch"
-    ]
-  },
   "mixins": [
     "mehrad-config.mixins.json",
     {
@@ -31,5 +26,12 @@
     "minecraft": "~1.20",
     "fabricloader": ">=0.14.21",
     "fabric-api": ">=0.83.0+1.20"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
   }
 }
