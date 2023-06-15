@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
  *
  * @see ConfigEntry
  */
-public class NumberEntry extends DefaultValueEntry<Short> {
-    private final short min;
-    private final short max;
+public class NumberEntry extends DefaultValueEntry<Integer> {
+    private final int min;
+    private final int max;
 
     /**
      * The main constructor.
@@ -23,7 +24,7 @@ public class NumberEntry extends DefaultValueEntry<Short> {
      * @param max          the maximum value allowed
      * @param defaultValue the default value of the entry.
      */
-    public NumberEntry(String name, short min, short max, short defaultValue) {
+    public NumberEntry(String name, int min, int max, int defaultValue) {
         super(name, defaultValue);
         if (max < min)
             throw new IllegalArgumentException("Min cannot be more than max!");
@@ -32,7 +33,7 @@ public class NumberEntry extends DefaultValueEntry<Short> {
     }
 
     @Override
-    public Component getTranslatedValue(String modId, @NotNull Short value) {
+    public Component getTranslatedValue(String modId, @NotNull Integer value) {
         return Component.literal(value.toString());
     }
 
@@ -43,17 +44,17 @@ public class NumberEntry extends DefaultValueEntry<Short> {
 
     @Override
     public void fromJson(JsonElement json) {
-        set(json.getAsShort());
+        set(json.getAsInt());
     }
 
     @Override
     public void writeToBuf(FriendlyByteBuf buf) {
-        buf.writeShort(get());
+        buf.writeInt(get());
     }
 
     @Override
     public void readFromBuf(FriendlyByteBuf buf) {
-        set(buf.readShort());
+        set(buf.readInt());
     }
 
     @Override
@@ -62,15 +63,11 @@ public class NumberEntry extends DefaultValueEntry<Short> {
     }
 
     @Override
-    protected Short trim(Short value) {
-        if (value < this.min)
-            return this.min;
-        if (value > this.max)
-            return this.max;
-        return value;
+    protected Integer trim(Integer value) {
+        return Mth.clamp(value, this.min, this.max);
     }
 
-    public record NumberTypeInfo(short min, short max) implements EntryTypeInfo<Short> {
+    public record NumberTypeInfo(int min, int max) implements EntryTypeInfo<Integer> {
         public static final String ID = "mehrad-config:number";
 
         @Override
@@ -79,8 +76,8 @@ public class NumberEntry extends DefaultValueEntry<Short> {
         }
 
         @Override
-        public Class<Short> typeClass() {
-            return Short.class;
+        public Class<Integer> typeClass() {
+            return Integer.class;
         }
     }
 }
