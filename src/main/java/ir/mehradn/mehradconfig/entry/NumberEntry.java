@@ -57,12 +57,7 @@ public class NumberEntry extends DefaultValueEntry<Short> {
     }
 
     @Override
-    public Class<Short> entryTypeClass() {
-        return Short.class;
-    }
-
-    @Override
-    public EntryTypeInfo entryTypeInfo() {
+    public NumberTypeInfo entryTypeInfo() {
         return new NumberTypeInfo(this.min, this.max);
     }
 
@@ -75,19 +70,17 @@ public class NumberEntry extends DefaultValueEntry<Short> {
         return value;
     }
 
-    public static final class NumberTypeInfo implements EntryTypeInfo {
+    public record NumberTypeInfo(short min, short max) implements EntryTypeInfo<Short> {
         public static final String ID = "mehrad-config:number";
-        public final short min;
-        public final short max;
-
-        public NumberTypeInfo(short min, short max) {
-            this.min = min;
-            this.max = max;
-        }
 
         @Override
         public String id() {
             return ID;
+        }
+
+        @Override
+        public Class<Short> typeClass() {
+            return Short.class;
         }
     }
 }

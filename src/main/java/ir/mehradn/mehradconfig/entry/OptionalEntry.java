@@ -116,12 +116,7 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
     }
 
     @Override
-    public Class<T> entryTypeClass() {
-        return this.optionalEntry.entryTypeClass();
-    }
-
-    @Override
-    public EntryTypeInfo entryTypeInfo() {
+    public EntryTypeInfo<T> entryTypeInfo() {
         return this.optionalEntry.entryTypeInfo();
     }
 }

@@ -119,19 +119,16 @@ public interface ConfigEntry <T> {
     void readFromBuf(FriendlyByteBuf buf);
 
     /**
-     * @return the entry type class object
-     */
-    Class<T> entryTypeClass();
-
-    /**
      * @return the entry type info
      */
-    EntryTypeInfo entryTypeInfo();
+    EntryTypeInfo<T> entryTypeInfo();
 
     /**
      * EntryTypeInfo is an interface for sharing the type information of config entries. It is mainly used in factories.
      */
-    interface EntryTypeInfo {
+    interface EntryTypeInfo <T> {
         String id();
+
+        Class<T> typeClass();
     }
 }

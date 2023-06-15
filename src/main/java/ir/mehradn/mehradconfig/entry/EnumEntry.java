@@ -54,26 +54,21 @@ public class EnumEntry <T extends Enum<T>> extends DefaultValueEntry<T> {
     }
 
     @Override
-    public Class<T> entryTypeClass() {
-        return this.enumClass;
-    }
-
-    @Override
-    public EntryTypeInfo entryTypeInfo() {
+    public EnumTypeInfo<T> entryTypeInfo() {
         return new EnumTypeInfo<>(this.enumClass);
     }
 
-    public static final class EnumTypeInfo <T extends Enum<T>> implements EntryTypeInfo {
+    public record EnumTypeInfo <T extends Enum<T>>(Class<T> enumClass) implements EntryTypeInfo<T> {
         public static final String ID = "mehrad-config:enum";
-        public final Class<T> enumClass;
-
-        public EnumTypeInfo(Class<T> enumClass) {
-            this.enumClass = enumClass;
-        }
 
         @Override
         public String id() {
             return ID;
+        }
+
+        @Override
+        public Class<T> typeClass() {
+            return this.enumClass;
         }
     }
 }

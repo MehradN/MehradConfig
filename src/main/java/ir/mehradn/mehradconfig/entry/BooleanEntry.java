@@ -46,21 +46,21 @@ public class BooleanEntry extends DefaultValueEntry<Boolean> {
     }
 
     @Override
-    public Class<Boolean> entryTypeClass() {
-        return Boolean.class;
-    }
-
-    @Override
     public BooleanTypeInfo entryTypeInfo() {
         return new BooleanTypeInfo();
     }
 
-    public static final class BooleanTypeInfo implements EntryTypeInfo {
+    public static final class BooleanTypeInfo implements EntryTypeInfo<Boolean> {
         public static final String ID = "mehrad-config:boolean";
 
         @Override
         public String id() {
             return ID;
+        }
+
+        @Override
+        public Class<Boolean> typeClass() {
+            return Boolean.class;
         }
     }
 }
