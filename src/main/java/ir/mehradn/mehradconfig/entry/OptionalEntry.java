@@ -22,7 +22,7 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
      * <b>Note:</b> Always at the initial state after the constructor, the value of the optional entry is ignored.
      *
      * @param optionalEntry the config entry that should hold the optional value
-     * @param fallbackEntry the config entry that should provide the value when the optional value isn't active
+     * @param fallbackEntry the config entry that should provide the default value
      */
     public OptionalEntry(ConfigEntry<T> optionalEntry, ConfigEntry<T> fallbackEntry) {
         this.optionalEntry = optionalEntry;

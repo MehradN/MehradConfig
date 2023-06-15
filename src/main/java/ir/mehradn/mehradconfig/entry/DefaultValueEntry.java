@@ -23,6 +23,17 @@ public abstract class DefaultValueEntry <T> implements ConfigEntry<T> {
         this.value = this.defaultValue;
     }
 
+    /**
+     * Creates an optional entry from this config entry.
+     *
+     * @param fallbackEntry the config entry that should provide the default value
+     * @return an optional entry
+     * @see OptionalEntry
+     */
+    public OptionalEntry<T> makeOptional(ConfigEntry<T> fallbackEntry) {
+        return new OptionalEntry<>(this, fallbackEntry);
+    }
+
     @Override
     public String getName() {
         return this.name;
