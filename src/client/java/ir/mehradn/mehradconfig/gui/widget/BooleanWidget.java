@@ -18,18 +18,18 @@ public class BooleanWidget extends ConfigEntryWidget<Boolean> {
      * @param textProvider a {@link ConfigEntryWidget.TextProvider}
      */
     public BooleanWidget(int x, int y, int width, int height,
-                         ConfigEntry<Boolean> entry, TextProvider<Boolean> textProvider) {
+                         ConfigEntry<Boolean> entry, TextProvider textProvider) {
         super(entry, textProvider, new Widget(x, y, width, height, entry, textProvider));
         ((Widget)this.widget).setReport(this::reportValueChange);
     }
 
     private static class Widget extends AbstractButton {
         private final ConfigEntry<Boolean> entry;
-        private final TextProvider<Boolean> textProvider;
+        private final TextProvider textProvider;
         private Runnable report;
 
         public Widget(int x, int y, int width, int height,
-                      ConfigEntry<Boolean> entry, TextProvider<Boolean> textProvider) {
+                      ConfigEntry<Boolean> entry, TextProvider textProvider) {
             super(x, y, width, height, textProvider.get(entry));
             this.entry = entry;
             this.textProvider = textProvider;

@@ -23,7 +23,7 @@ public abstract class ConfigEntryWidget <T> {
      * The actual widget that should be rendered
      */
     public final AbstractWidget widget;
-    protected final TextProvider<T> textProvider;
+    protected final TextProvider textProvider;
     private Consumer<ConfigEntry<T>> onChange = null;
 
     /**
@@ -31,7 +31,7 @@ public abstract class ConfigEntryWidget <T> {
      * @param textProvider a {@link ConfigEntryWidget.TextProvider}
      * @param widget       the actual widget that should be rendered
      */
-    protected ConfigEntryWidget(ConfigEntry<T> entry, TextProvider<T> textProvider, AbstractWidget widget) {
+    protected ConfigEntryWidget(ConfigEntry<T> entry, TextProvider textProvider, AbstractWidget widget) {
         this.entry = entry;
         this.widget = widget;
         this.textProvider = textProvider;
@@ -66,24 +66,23 @@ public abstract class ConfigEntryWidget <T> {
     /**
      * TextProvider is an interface for displaying a config entry as a {@link Component}. Should be based on the methods in "See Also".
      *
-     * @param <T> The type of the config entry value
      * @see ConfigEntry#getTranslatedTitle
      * @see ConfigEntry#getTranslatedValue
      */
-    public interface TextProvider <T> {
+    public interface TextProvider {
         /**
          * The returned text should be based on the current value of the entry,
          *
          * @see ConfigEntry#get
          * @see ConfigEntry#getTranslatedTitle(String)
          */
-        Component get(ConfigEntry<T> entry);
+        Component get(ConfigEntry<?> entry);
 
         /**
          * The returned text should be based on the given value.
          *
          * @see ConfigEntry#getTranslatedValue(String, Object)
          */
-        Component get(ConfigEntry<T> entry, T value);
+        <T> Component get(ConfigEntry<T> entry, T value);
     }
 }

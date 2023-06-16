@@ -41,7 +41,7 @@ public class EntryWidgetFactory {
      * @param <S> the type of the config value
      */
     public <S> ConfigEntryWidget<S> build(int x, int y, int width, int height,
-                                          ConfigEntry<S> entry, ConfigEntryWidget.TextProvider<S> textProvider) {
+                                          ConfigEntry<S> entry, ConfigEntryWidget.TextProvider textProvider) {
         ConfigEntry.EntryTypeInfo<S> typeInfo = entry.entryTypeInfo();
         String typeId = typeInfo.id();
         WidgetBuilder<?, ?> widgetBuilder = this.widgetBuilders.get(typeId);
@@ -67,7 +67,7 @@ public class EntryWidgetFactory {
     private <S, T extends ConfigEntry.EntryTypeInfo<S>>
     ConfigEntryWidget<S> typeFreeBuild(int x, int y, int width, int height,
                                        WidgetBuilder<?, ?> widgetBuilder, ConfigEntry.EntryTypeInfo<S> typeInfo,
-                                       ConfigEntry<S> entry, ConfigEntryWidget.TextProvider<S> textProvider) {
+                                       ConfigEntry<S> entry, ConfigEntryWidget.TextProvider textProvider) {
         return ((WidgetBuilder<S, T>)widgetBuilder).build(x, y, width, height, (T)typeInfo, entry, textProvider);
     }
 
@@ -87,6 +87,6 @@ public class EntryWidgetFactory {
     @FunctionalInterface
     public interface WidgetBuilder <S, T extends ConfigEntry.EntryTypeInfo<S>> {
         ConfigEntryWidget<S> build(int x, int y, int width, int height,
-                                   T entryTypeInfo, ConfigEntry<S> entry, ConfigEntryWidget.TextProvider<S> textProvider);
+                                   T entryTypeInfo, ConfigEntry<S> entry, ConfigEntryWidget.TextProvider textProvider);
     }
 }

@@ -18,7 +18,7 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
      * @param textProvider a {@link ConfigEntryWidget.TextProvider}
      */
     public SliderNumberWidget(int x, int y, int width, int height,
-                              int min, int max, ConfigEntry<Integer> entry, TextProvider<Integer> textProvider) {
+                              int min, int max, ConfigEntry<Integer> entry, TextProvider textProvider) {
         super(entry, textProvider, new Widget(x, y, width, height, min, max, entry, textProvider));
         ((Widget)this.widget).setReport(this::reportValueChange);
     }
@@ -30,7 +30,7 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
         private Runnable report;
 
         public Widget(int x, int y, int width, int height,
-                      int min, int max, ConfigEntry<Integer> entry, TextProvider<Integer> textProvider) {
+                      int min, int max, ConfigEntry<Integer> entry, TextProvider textProvider) {
             super(x, y, width, height, textProvider.get(entry), valueToSlider(min, max, entry.get()));
             this.min = min;
             this.max = max;

@@ -21,7 +21,7 @@ public class EnumWidget <T extends Enum<T>> extends ConfigEntryWidget<T> {
      * @param textProvider a {@link ConfigEntryWidget.TextProvider}
      */
     public EnumWidget(int x, int y, int width, int height,
-                      Class<T> enumClass, ConfigEntry<T> entry, TextProvider<T> textProvider) {
+                      Class<T> enumClass, ConfigEntry<T> entry, TextProvider textProvider) {
         super(entry, textProvider, new Widget<>(x, y, width, height, enumClass, entry, textProvider));
         ((Widget<?>)this.widget).setReport(this::reportValueChange);
     }
@@ -29,11 +29,11 @@ public class EnumWidget <T extends Enum<T>> extends ConfigEntryWidget<T> {
     private static class Widget <T extends Enum<T>> extends AbstractButton {
         private final Class<T> enumClass;
         private final ConfigEntry<T> entry;
-        private final TextProvider<T> textProvider;
+        private final TextProvider textProvider;
         private Runnable report;
 
         public Widget(int x, int y, int width, int height,
-                      Class<T> enumClass, ConfigEntry<T> entry, TextProvider<T> textProvider) {
+                      Class<T> enumClass, ConfigEntry<T> entry, TextProvider textProvider) {
             super(x, y, width, height, textProvider.get(entry));
             this.enumClass = enumClass;
             this.entry = entry;
