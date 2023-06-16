@@ -53,19 +53,19 @@ public class ConfigScreenBuilder {
     /**
      * All of the properties for creating a config screen.
      *
-     * @param widgetWidth       width of the entry widgets
-     * @param descriptionHeight height of the description text
-     * @param descriptionWidth  width of the description text
-     * @param saveBounds        bounds of the save button
-     * @param cancelBounds      bounds of the cancel button
-     * @param onSave            the action that should happen when the save button is pressed, after the config has been updated
-     * @param onCancel          the action that should happen when the cancel button is pressed
-     * @param customButtons     a list of custom buttons to add to the screen
+     * @param widgetWidth      width of the entry widgets
+     * @param descriptionY     y of the description text
+     * @param descriptionWidth width of the description text
+     * @param saveBounds       bounds of the save button
+     * @param cancelBounds     bounds of the cancel button
+     * @param onSave           the action that should happen when the save button is pressed, after the config has been updated
+     * @param onCancel         the action that should happen when the cancel button is pressed
+     * @param customButtons    a list of custom buttons to add to the screen
      */
     @Environment(EnvType.CLIENT)
     public record ScreenProperties(
         NumberProvider widgetWidth,
-        NumberProvider descriptionHeight,
+        NumberProvider descriptionY,
         NumberProvider descriptionWidth,
         BoundsProvider saveBounds,
         BoundsProvider cancelBounds,
