@@ -21,11 +21,17 @@ import java.util.List;
  */
 public abstract class MehradConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private final String modId;
-    private final String fileName;
+    /**
+     * The modId of the mod. It's assumed to be the same modId that provides the translations.
+     */
+    public final String modId;
+    /**
+     * The name of the config, used in translations and the name of the config file.
+     */
+    public final String name;
 
     /**
-     * The config will be saved in {@code {modId}.json}. The value of the argument should be a constant passed in the constructor.
+     * The name of the config will be same as the {@code modId}. The config will be saved in {@code {modId}.json}.
      *
      * @param modId the modId of the mod. Should be the same modId that provides the translations.
      */
@@ -34,14 +40,14 @@ public abstract class MehradConfig {
     }
 
     /**
-     * The config will be saved in {@code {fileName}.json}. The value of the arguments should be constants passed in the constructor.
+     * The config will be saved in {@code {name}.json}.
      *
      * @param modId the modId of the mod. Should be the same modId that provides the translations.
-     * @param fileName the name of the file that the config should be saved to, without the {@code .json} at the end
+     * @param name the name of the config
      */
-    protected MehradConfig(String modId, String fileName) {
+    protected MehradConfig(String modId, String name) {
         this.modId = modId;
-        this.fileName = fileName;
+        this.name = name;
     }
 
     /**
@@ -180,7 +186,7 @@ public abstract class MehradConfig {
         Path configDir = FabricLoader.getInstance().getConfigDir();
         Files.createDirectories(configDir);
 
-        Path configFile = configDir.resolve(this.fileName + ".json");
+        Path configFile = configDir.resolve(this.name + ".json");
         JsonObject json = toJson();
         try (FileWriter writer = new FileWriter(configFile.toFile())) {
             GSON.toJson(json, writer);
@@ -194,18 +200,11 @@ public abstract class MehradConfig {
      * @throws IOException if any of the IO operations fail
      */
     public void load() throws IOException {
-        Path configFile = FabricLoader.getInstance().getConfigDir().resolve(this.fileName + ".json");
+        Path configFile = FabricLoader.getInstance().getConfigDir().resolve(this.name + ".json");
         try (FileReader reader = new FileReader(configFile.toFile())) {
             JsonObject json = GSON.fromJson(reader, JsonObject.class);
             fromJson(json);
         }
-    }
-
-    /**
-     * @return the modId of the mod. It's assumed to be the same modId that provides the translations.
-     */
-    public String getModId() {
-        return this.modId;
     }
 
     private void pairEntries(List<ConfigEntry<?>> entries1, List<ConfigEntry<?>> entries2, SameTypeEntryAction<?> action) {
