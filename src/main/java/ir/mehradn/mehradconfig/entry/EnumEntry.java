@@ -30,7 +30,7 @@ public class EnumEntry <T extends Enum<T>> extends DefaultValueEntry<T> {
 
     @Override
     public Component getTranslatedValue(String modId, @NotNull T value) {
-        return Component.translatable(modId + ".config.enum." + getName() + "." + value);
+        return Component.translatable(modId + ".mehrad-config.enum." + getName() + "." + value);
     }
 
     @Override

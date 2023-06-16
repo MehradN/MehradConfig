@@ -22,7 +22,7 @@ public class BooleanEntry extends DefaultValueEntry<Boolean> {
 
     @Override
     public Component getTranslatedValue(String modId, @NotNull Boolean value) {
-        return Component.translatable(modId + ".config.bool." + getName() + "." + value);
+        return Component.translatable(modId + ".mehrad-config.bool." + getName() + "." + value);
     }
 
     @Override
