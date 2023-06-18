@@ -1,0 +1,6 @@
+{
+  "mehrad-config.resetButton.message": "Reset",
+  "mehrad-config.resetButton.tooltip": "Reset to the default value",
+  "mehrad-config.valueWrapper.shouldNotWrite": "Default (%s)",
+  "mehrad-config.valueWrapper.isDefault": "%s (default)"
+}
