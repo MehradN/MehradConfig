@@ -15,7 +15,7 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
      * @param min          the minimum value allowed
      * @param max          the maximum value allowed
      * @param entry        the config entry that will get updated by this widget
-     * @param textProvider a {@link ConfigEntryWidget.TextProvider}
+     * @param textProvider a text provider for setting the message of the config entry widget
      */
     public SliderNumberWidget(int x, int y, int width, int height,
                               int min, int max, ConfigEntry<Integer> entry, TextProvider textProvider) {

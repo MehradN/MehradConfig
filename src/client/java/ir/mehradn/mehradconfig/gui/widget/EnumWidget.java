@@ -18,7 +18,7 @@ public class EnumWidget <T extends Enum<T>> extends ConfigEntryWidget<T> {
     /**
      * @param enumClass    the class object of the enum
      * @param entry        the config entry that will get updated by this widget
-     * @param textProvider a {@link ConfigEntryWidget.TextProvider}
+     * @param textProvider a text provider for setting the message of the config entry widget
      */
     public EnumWidget(int x, int y, int width, int height,
                       Class<T> enumClass, ConfigEntry<T> entry, TextProvider textProvider) {

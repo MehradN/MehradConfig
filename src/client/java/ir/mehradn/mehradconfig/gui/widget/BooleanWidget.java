@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 public class BooleanWidget extends ConfigEntryWidget<Boolean> {
     /**
      * @param entry        the config entry that will get updated by this widget
-     * @param textProvider a {@link ConfigEntryWidget.TextProvider}
+     * @param textProvider a text provider for setting the message of the config entry widget
      */
     public BooleanWidget(int x, int y, int width, int height,
                          ConfigEntry<Boolean> entry, TextProvider textProvider) {

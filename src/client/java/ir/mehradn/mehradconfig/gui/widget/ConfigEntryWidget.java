@@ -28,7 +28,7 @@ public abstract class ConfigEntryWidget <T> {
 
     /**
      * @param entry        the config entry that will get updated by this widget
-     * @param textProvider a {@link ConfigEntryWidget.TextProvider}
+     * @param textProvider a text provider for setting the message of the config entry widget
      * @param widget       the actual widget that should be rendered
      */
     protected ConfigEntryWidget(ConfigEntry<T> entry, TextProvider textProvider, AbstractWidget widget) {
