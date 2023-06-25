@@ -8,8 +8,9 @@ import ir.mehradn.mehradconfig.gui.screen.MehradConfigScreen;
 import ir.mehradn.mehradconfig.gui.screen.ResettableConfigScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.Objects;
@@ -28,8 +29,8 @@ public class ConfigScreenBuilder {
     private NumberProvider buttonWidth = null;
     private NumberProvider descriptionY = null;
     private NumberProvider descriptionWidth = null;
-    private Button.OnPress onSave = null;
-    private Button.OnPress onCancel = null;
+    private ButtonAction onSave = null;
+    private ButtonAction onCancel = null;
 
     public ConfigScreenBuilder() {
         this.entryWidgetFactory.addDefaultBuilders();
@@ -167,13 +168,13 @@ public class ConfigScreenBuilder {
     /**
      * Sets the action that should happen when the save button is pressed. Saving/updating the config will happen before this action.
      * <p>
-     * For all of the {@link DefaultScreens default screen types}, the default action sets the current screen to {@code null}.
+     * For all of the {@link DefaultScreens default screen types}, the default action sets the current screen to the parent screen.
      *
      * @param onSave the action that should happen when the save button is pressed
      * @see #buildForInstance
      * @see #buildAndLoad
      */
-    public ConfigScreenBuilder setOnSave(Button.OnPress onSave) {
+    public ConfigScreenBuilder setOnSave(ButtonAction onSave) {
         this.onSave = onSave;
         return this;
     }
@@ -181,11 +182,11 @@ public class ConfigScreenBuilder {
     /**
      * Sets the action that should happen when the cancel button is pressed.
      * <p>
-     * For all of the {@link DefaultScreens default screen types}, the default action sets the current screen to {@code null}.
+     * For all of the {@link DefaultScreens default screen types}, the default action sets the current screen to the parent screen.
      *
      * @param onCancel the action that should happen when the cancel button is pressed
      */
-    public ConfigScreenBuilder setOnCancel(Button.OnPress onCancel) {
+    public ConfigScreenBuilder setOnCancel(ButtonAction onCancel) {
         this.onCancel = onCancel;
         return this;
     }
@@ -207,18 +208,32 @@ public class ConfigScreenBuilder {
      * Builds a config screen for the given config instance. The instance only gets updated if the save button is pressed. The updating happens
      * before the {@link #setOnSave} action. <b> {@link #setScreenType} must be called before this method. </b>
      *
-     * @param instance the config instance to modify with this screen
+     * @param instance     the config instance to modify with this screen
+     * @param parentScreen the parent screen
      * @return a config screen for modifying the given config instance
      */
-    public MehradConfigScreen buildForInstance(MehradConfig instance) {
+    public MehradConfigScreen buildForInstance(MehradConfig instance, Screen parentScreen) {
         if (this.constructor == null)
             throw new IllegalStateException("setScreenType must be called before build methods");
 
         MehradConfig modifiedConfig = instance.createNewInstance();
         instance.copyTo(modifiedConfig);
-        ScreenProperties properties = buildProperties(wrapOnSave((btn) -> modifiedConfig.copyTo(instance)));
+        ScreenProperties properties = buildProperties(wrapOnSave(() -> modifiedConfig.copyTo(instance)));
 
-        return this.constructor.create(modifiedConfig, properties, this.entryWidgetFactory);
+        return this.constructor.create(modifiedConfig, properties, this.entryWidgetFactory, parentScreen);
+    }
+
+    /**
+     * Builds a config screen for the given config instance. The instance only gets updated if the save button is pressed. The updating happens
+     * before the {@link #setOnSave} action. <b> {@link #setScreenType} must be called before this method. </b>
+     * <p>
+     * This version of the method will fetch the parent screen via {@code Minecraft.getInstance().screen}.
+     *
+     * @param instance the config instance to modify with this screen
+     * @return a config screen for modifying the given config instance
+     */
+    public MehradConfigScreen buildForInstance(MehradConfig instance) {
+        return buildForInstance(instance, Minecraft.getInstance().screen);
     }
 
     /**
@@ -226,9 +241,10 @@ public class ConfigScreenBuilder {
      * before the {@link #setOnSave} action. <b> {@link #setScreenType} must be called before this method. </b>
      *
      * @param configConstructor a constructor for the type of the config to load, modify and save
+     * @param parentScreen      the parent screen
      * @return a config screen for modifying the loaded config instance, it's {@code null} if something fails while loading the config
      */
-    public @Nullable MehradConfigScreen buildAndLoad(Supplier<MehradConfig> configConstructor) {
+    public @Nullable MehradConfigScreen buildAndLoad(Supplier<MehradConfig> configConstructor, Screen parentScreen) {
         if (this.constructor == null)
             throw new IllegalStateException("setScreenType must be called before build methods");
 
@@ -240,7 +256,7 @@ public class ConfigScreenBuilder {
             return null;
         }
 
-        ScreenProperties properties = buildProperties(wrapOnSave((btn) -> {
+        ScreenProperties properties = buildProperties(wrapOnSave(() -> {
             try {
                 config.save();
             } catch (IOException e) {
@@ -248,10 +264,23 @@ public class ConfigScreenBuilder {
             }
         }));
 
-        return this.constructor.create(config, properties, this.entryWidgetFactory);
+        return this.constructor.create(config, properties, this.entryWidgetFactory, parentScreen);
     }
 
-    private ScreenProperties buildProperties(Button.OnPress onSave) {
+    /**
+     * Loads, modifies and saves a config instance with a config screen. The config only gets save if the save button is pressed. The saving happens
+     * before the {@link #setOnSave} action. <b> {@link #setScreenType} must be called before this method. </b>
+     * <p>
+     * This version of the method will fetch the parent screen via {@code Minecraft.getInstance().screen}.
+     *
+     * @param configConstructor a constructor for the type of the config to load, modify and save
+     * @return a config screen for modifying the loaded config instance, it's {@code null} if something fails while loading the config
+     */
+    public @Nullable MehradConfigScreen buildAndLoad(Supplier<MehradConfig> configConstructor) {
+        return buildAndLoad(configConstructor, Minecraft.getInstance().screen);
+    }
+
+    private ScreenProperties buildProperties(ButtonAction onSave) {
         if (this.defaultProperties == null)
             throw new IllegalStateException();
         return new ScreenProperties(
@@ -264,13 +293,13 @@ public class ConfigScreenBuilder {
         );
     }
 
-    private Button.OnPress wrapOnSave(Button.OnPress action) {
+    private ButtonAction wrapOnSave(Runnable action) {
         if (this.defaultProperties == null)
             throw new IllegalStateException();
-        Button.OnPress action2 = Objects.requireNonNullElse(this.onSave, this.defaultProperties.onSave);
-        return (button) -> {
-            action.onPress(button);
-            action2.onPress(button);
+        ButtonAction action2 = Objects.requireNonNullElse(this.onSave, this.defaultProperties.onSave);
+        return (minecraft, thisScreen, parentScreen) -> {
+            action.run();
+            action2.onClick(minecraft, thisScreen, parentScreen);
         };
     }
 
@@ -307,7 +336,7 @@ public class ConfigScreenBuilder {
      */
     @Environment(EnvType.CLIENT)
     public interface ConfigScreenConstructor {
-        MehradConfigScreen create(MehradConfig config, ScreenProperties properties, EntryWidgetFactory widgetFactory);
+        MehradConfigScreen create(MehradConfig config, ScreenProperties properties, EntryWidgetFactory widgetFactory, Screen parentScreen);
     }
 
     /**
@@ -317,6 +346,15 @@ public class ConfigScreenBuilder {
     @Environment(EnvType.CLIENT)
     public interface NumberProvider {
         int get(int width, int height, Font font);
+    }
+
+    /**
+     * Actions that should happen when a button is pressed.
+     */
+    @FunctionalInterface
+    @Environment(EnvType.CLIENT)
+    public interface ButtonAction {
+        void onClick(Minecraft minecraft, MehradConfigScreen thisScreen, Screen parentScreen);
     }
 
     /**
@@ -335,7 +373,7 @@ public class ConfigScreenBuilder {
         NumberProvider buttonWidth,
         NumberProvider descriptionY,
         NumberProvider descriptionWidth,
-        Button.OnPress onSave,
-        Button.OnPress onCancel
+        ButtonAction onSave,
+        ButtonAction onCancel
     ) { }
 }

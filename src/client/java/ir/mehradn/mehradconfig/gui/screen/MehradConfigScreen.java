@@ -42,6 +42,10 @@ public abstract class MehradConfigScreen extends Screen {
      */
     protected final ConfigEntryWidget.TextProvider textProvider;
     /**
+     * The parent screen. The screen that opened this screen.
+     */
+    protected final Screen parentScreen;
+    /**
      * A list of the config entry widgets being displayed. Initialized after {@link #init()}.
      */
     protected List<ConfigEntryWidget<?>> entryWidgets;
@@ -63,14 +67,16 @@ public abstract class MehradConfigScreen extends Screen {
      * @param properties         some screen properties to base this screen of
      * @param entryWidgetFactory an {@code EntryWidgetFactory} to create widgets for config entries
      * @param textProvider       a text provider for setting the messages of the config entry widgets
+     * @param parentScreen       the parent screen
      */
     protected MehradConfigScreen(MehradConfig config, ConfigScreenBuilder.ScreenProperties properties, EntryWidgetFactory entryWidgetFactory,
-                                 ConfigEntryWidget.TextProvider textProvider) {
+                                 ConfigEntryWidget.TextProvider textProvider, Screen parentScreen) {
         super(Component.translatable(config.modId + ".mehrad-config.screenTitle." + config.name));
         this.config = config;
         this.properties = properties;
         this.entryWidgetFactory = entryWidgetFactory;
         this.textProvider = textProvider;
+        this.parentScreen = parentScreen;
     }
 
     @Override
@@ -93,7 +99,7 @@ public abstract class MehradConfigScreen extends Screen {
         int buttonWidth = this.properties.buttonWidth().get(this.width, this.height, this.font);
         this.cancelButton = addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, (btn) -> onClose())
             .bounds(this.width / 2 - buttonWidth - 2, this.height - 35, buttonWidth, 20).build());
-        this.saveButton = addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, this.properties.onSave())
+        this.saveButton = addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (btn) -> onSave())
             .bounds(this.width / 2 + 2, this.height - 35, buttonWidth, 20).build());
     }
 
@@ -116,7 +122,7 @@ public abstract class MehradConfigScreen extends Screen {
 
     @Override
     public void onClose() {
-        this.properties.onCancel().onPress(this.cancelButton);
+        this.properties.onCancel().onClick(this.minecraft, this, this.parentScreen);
     }
 
     /**
@@ -135,4 +141,8 @@ public abstract class MehradConfigScreen extends Screen {
      * @return the bounds of the entry widget hover region
      */
     protected abstract ScreenRectangle getEntryHoverRegion(int i);
+
+    private void onSave() {
+        this.properties.onSave().onClick(this.minecraft, this, this.parentScreen);
+    }
 }

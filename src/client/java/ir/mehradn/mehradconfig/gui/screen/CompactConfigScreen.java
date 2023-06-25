@@ -7,8 +7,8 @@ import ir.mehradn.mehradconfig.gui.EntryWidgetFactory;
 import ir.mehradn.mehradconfig.gui.widget.ConfigEntryWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -22,16 +22,19 @@ public class CompactConfigScreen extends MehradConfigScreen {
      */
     public static final ConfigScreenBuilder.ScreenProperties DEFAULT_PROPERTIES = new ConfigScreenBuilder.ScreenProperties(
         (w, h, f) -> 150, (w, h, f) -> 150, (w, h, f) -> h - f.lineHeight * 3 - 40, (w, h, f) -> 300,
-        (btn) -> Minecraft.getInstance().setScreen(null), (btn) -> Minecraft.getInstance().setScreen(null)
+        (minecraft, thisScreen, parentScreen) -> minecraft.setScreen(parentScreen),
+        (minecraft, thisScreen, parentScreen) -> minecraft.setScreen(parentScreen)
     );
 
     /**
      * @param config             the config to display and modify
      * @param properties         some screen properties to base this screen of
      * @param entryWidgetFactory an {@code EntryWidgetFactory} to create widgets for config entries
+     * @param parentScreen       the parent screen
      */
-    public CompactConfigScreen(MehradConfig config, ConfigScreenBuilder.ScreenProperties properties, EntryWidgetFactory entryWidgetFactory) {
-        super(config, properties, entryWidgetFactory, new SimpleTextProvider(config.modId));
+    public CompactConfigScreen(MehradConfig config, ConfigScreenBuilder.ScreenProperties properties, EntryWidgetFactory entryWidgetFactory,
+                               Screen parentScreen) {
+        super(config, properties, entryWidgetFactory, new SimpleTextProvider(config.modId), parentScreen);
     }
 
     @Override
