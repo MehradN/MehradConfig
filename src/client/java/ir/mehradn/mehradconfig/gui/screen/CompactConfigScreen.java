@@ -7,6 +7,7 @@ import ir.mehradn.mehradconfig.gui.EntryWidgetFactory;
 import ir.mehradn.mehradconfig.gui.widget.ConfigEntryWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -16,6 +17,14 @@ import net.minecraft.network.chat.Component;
  */
 @Environment(EnvType.CLIENT)
 public class CompactConfigScreen extends MehradConfigScreen {
+    /**
+     * @see ir.mehradn.mehradconfig.gui.ConfigScreenBuilder.DefaultScreens
+     */
+    public static final ConfigScreenBuilder.ScreenProperties DEFAULT_PROPERTIES = new ConfigScreenBuilder.ScreenProperties(
+        (w, h, f) -> 150, (w, h, f) -> 150, (w, h, f) -> h - f.lineHeight * 3 - 40, (w, h, f) -> 300,
+        (btn) -> Minecraft.getInstance().setScreen(null), (btn) -> Minecraft.getInstance().setScreen(null)
+    );
+
     /**
      * @param config             the config to display and modify
      * @param properties         some screen properties to base this screen of

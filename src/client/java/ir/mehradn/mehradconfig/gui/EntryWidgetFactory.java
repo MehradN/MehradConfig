@@ -35,10 +35,10 @@ public class EntryWidgetFactory {
     /**
      * Builds a widget from the given information.
      *
-     * @param entry the config entry to build the widget for
+     * @param entry        the config entry to build the widget for
      * @param textProvider the text provider to be used in the widget
+     * @param <S>          the type of the config value
      * @return a config entry widget which will display and update this given config entry
-     * @param <S> the type of the config value
      */
     public <S> ConfigEntryWidget<S> build(int x, int y, int width, int height,
                                           ConfigEntry<S> entry, ConfigEntryWidget.TextProvider textProvider) {
