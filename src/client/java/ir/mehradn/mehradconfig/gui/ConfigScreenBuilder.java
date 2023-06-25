@@ -2,7 +2,7 @@ package ir.mehradn.mehradconfig.gui;
 
 import ir.mehradn.mehradconfig.MehradConfig;
 import ir.mehradn.mehradconfig.entry.ConfigEntry;
-import ir.mehradn.mehradconfig.entrypoint.MehradConfigMain;
+import ir.mehradn.mehradconfig.entrypoint.MehradConfigEntrypoint;
 import ir.mehradn.mehradconfig.gui.screen.CompactConfigScreen;
 import ir.mehradn.mehradconfig.gui.screen.MehradConfigScreen;
 import ir.mehradn.mehradconfig.gui.screen.ResettableConfigScreen;
@@ -236,7 +236,7 @@ public class ConfigScreenBuilder {
         try {
             config.load();
         } catch (IOException e) {
-            MehradConfigMain.LOGGER.error("Failed to load the config for \"" + config.modId + "\"!", e);
+            MehradConfigEntrypoint.LOGGER.error("Failed to load the config for \"" + config.modId + "\"!", e);
             return null;
         }
 
@@ -244,7 +244,7 @@ public class ConfigScreenBuilder {
             try {
                 config.save();
             } catch (IOException e) {
-                MehradConfigMain.LOGGER.error("Failed to save the config for \"" + config.modId + "\"!", e);
+                MehradConfigEntrypoint.LOGGER.error("Failed to save the config for \"" + config.modId + "\"!", e);
             }
         }));
 
