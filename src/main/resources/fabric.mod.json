@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "ir.mehradn.mehradconfig.entrypoint.MehradConfigEntrypoint"
+    ],
+    "modmenu": [
+      "ir.mehradn.mehradconfig.entrypoint.ModMenuEntrypoint"
     ]
   },
   "depends": {
