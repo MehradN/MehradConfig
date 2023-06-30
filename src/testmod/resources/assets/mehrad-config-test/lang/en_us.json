@@ -1,0 +1,19 @@
+{
+  "mehrad-config-test.mehrad-config.screenTitle.mehrad-config-test": "Test Screen",
+  "mehrad-config-test.mehrad-config.title.testBoolean": "Test Boolean",
+  "mehrad-config-test.mehrad-config.bool.testBoolean.false": "No",
+  "mehrad-config-test.mehrad-config.bool.testBoolean.true": "Yes",
+  "mehrad-config-test.mehrad-config.description.testBoolean": "Test Boolean Description!!\nNext Line!!",
+  "mehrad-config-test.mehrad-config.title.testEnum": "Test Enum",
+  "mehrad-config-test.mehrad-config.enum.testEnum.VALUE_1": "Option 1",
+  "mehrad-config-test.mehrad-config.enum.testEnum.VALUE_2": "Default Option",
+  "mehrad-config-test.mehrad-config.enum.testEnum.VALUE_3": "Option 3",
+  "mehrad-config-test.mehrad-config.enum.testEnum.VALUE_4": "Forbidden Option",
+  "mehrad-config-test.mehrad-config.description.testEnum": "Test Enum Description!!      A lot of spaces!!",
+  "mehrad-config-test.mehrad-config.title.testNumber": "Test Number",
+  "mehrad-config-test.mehrad-config.description.testNumber": "Test Number Description!! Lets go to the next line! AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA AAAAAA!!",
+  "mehrad-config-test.mehrad-config.title.testOptional": "Test Optional",
+  "mehrad-config-test.mehrad-config.bool.testOptional.false": "Probably Not",
+  "mehrad-config-test.mehrad-config.bool.testOptional.true": "Maybe",
+  "mehrad-config-test.mehrad-config.description.testOptional": "Test Optional Description!! Based on testBoolean!!"
+}

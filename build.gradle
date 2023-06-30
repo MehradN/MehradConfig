@@ -10,6 +10,36 @@ base {
 	archivesName = project.archives_base_name
 }
 
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"mehrad-config" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+sourceSets {
+	testmod {
+		compileClasspath += main.compileClasspath
+		compileClasspath += client.compileClasspath
+		runtimeClasspath += main.runtimeClasspath
+		runtimeClasspath += client.runtimeClasspath
+	}
+}
+
+loom {
+	runs {
+		testmod {
+			client()
+			name = "TestMod Client"
+			source sourceSets.testmod
+		}
+	}
+}
+
 repositories {
 	maven {
 		name 'ParchmentMC'
@@ -18,18 +48,6 @@ repositories {
 	maven {
 		url 'https://maven.terraformersmc.com/releases'
 	}
-}
-
-loom {
-    splitEnvironmentSourceSets()
-
-	mods {
-		"mehrad-config" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
-
 }
 
 dependencies {
@@ -43,6 +61,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	testmodImplementation sourceSets.main.output
+	testmodImplementation sourceSets.client.output
 }
 
 processResources {

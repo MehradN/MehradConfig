@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "mehrad-config",
-  "version": "${version}",
-  "name": "Mehrad Config",
-  "description": "A simple looking, instance based config library for minecraft.",
+  "id": "mehrad-config-test",
+  "version": "1.0.0",
+  "name": "Mehrad Config TestMod",
+  "description": "TestMod for Mehrad Config.",
   "authors": [
     "Mehrad Nayyeri"
   ],
@@ -16,23 +16,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "ir.mehradn.mehradconfig.entrypoint.MehradConfigEntrypoint"
-    ],
-    "modmenu": [
-      "ir.mehradn.mehradconfig.entrypoint.ModMenuEntrypoint"
+      "ir.mehradn.mehradconfigtest.MehradConfigTest"
     ]
   },
   "depends": {
     "java": ">=17",
     "minecraft": "~1.19",
     "fabricloader": ">=0.14.21",
-    "fabric-api": ">=0.83.0+1.19.4"
-  },
-  "custom": {
-    "modmenu": {
-      "badges": [
-        "library"
-      ]
-    }
+    "fabric-api": ">=0.83.0+1.19.4",
+    "mehrad-config": "*"
   }
 }
