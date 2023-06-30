@@ -66,7 +66,7 @@ public class EnumWidget <T extends Enum<T>> extends ConfigEntryWidget<T> {
         private T next(T value) {
             T[] values = this.enumClass.getEnumConstants();
             int i = value.ordinal() + 1;
-            return (i > values.length ? values[0] : values[i]);
+            return (i >= values.length ? values[0] : values[i]);
         }
     }
 }

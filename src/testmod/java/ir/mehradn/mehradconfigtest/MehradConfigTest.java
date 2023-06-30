@@ -14,15 +14,16 @@ public class MehradConfigTest implements ModInitializer {
     @Override
     public void onInitialize() {
         ConfigScreenBuilder.DefaultScreens defaultScreen =
-            ConfigScreenBuilder.DefaultScreens.RESETTABLE; // Change to compact if you don't need reset buttons
+            ConfigScreenBuilder.DefaultScreens.RESETTABLE;
+            //ConfigScreenBuilder.DefaultScreens.COMPACT;
         ConfigScreenBuilder builder = new ConfigScreenBuilder()
             .setScreenType(defaultScreen)
             //.setWidgetWidth(175)
             //.setButtonWidth(175)
             //.setDescriptionY((width, height, font) -> height / 2)
             //.setDescriptionWidth(500)
-            //.setOnSave((minecraft, thisScreen, parentScreen) -> LOGGER.info("SAVED!"))
-            //.setOnCancel((minecraft, thisScreen, parentScreen) -> LOGGER.info("CANCELED!"))
+            //.setOnSave((minecraft, thisScreen, parentScreen) -> { LOGGER.info("SAVED!"); minecraft.setScreen(parentScreen); })
+            //.setOnCancel((minecraft, thisScreen, parentScreen) -> { LOGGER.info("CANCELED!"); minecraft.setScreen(parentScreen); })
             ;
         ModMenuEntrypoint.register(MOD_ID, TestConfig::new, builder);
     }

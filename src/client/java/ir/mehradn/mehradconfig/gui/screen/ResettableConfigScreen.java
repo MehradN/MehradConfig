@@ -52,6 +52,7 @@ public class ResettableConfigScreen extends MehradConfigScreen {
                 .bounds(x, y, 50, 20)
                 .tooltip(Tooltip.create(Component.translatable("mehrad-config.resetButton.tooltip")))
                 .build());
+            resetButton.active = !widget.entry.isDefault();
             widget.onValueChange((entry) -> resetButton.active = !entry.isDefault());
         }
     }

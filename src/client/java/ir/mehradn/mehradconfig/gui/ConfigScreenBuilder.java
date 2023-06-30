@@ -252,8 +252,7 @@ public class ConfigScreenBuilder {
         try {
             config.load();
         } catch (IOException e) {
-            MehradConfigEntrypoint.LOGGER.error("Failed to load the config for \"" + config.modId + "\"!", e);
-            return null;
+            MehradConfigEntrypoint.LOGGER.warn("Failed to load the config for \"" + config.modId + "\"!", e);
         }
 
         ScreenProperties properties = buildProperties(wrapOnSave(() -> {

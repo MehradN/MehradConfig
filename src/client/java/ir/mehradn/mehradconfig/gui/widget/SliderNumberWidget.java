@@ -23,6 +23,12 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
         ((Widget)this.widget).setReport(this::reportValueChange);
     }
 
+    @Override
+    public void reportValueChange() {
+        super.reportValueChange();
+        ((Widget)this.widget).updateSlider();
+    }
+
     private static class Widget extends AbstractSliderButton {
         private final int min;
         private final int max;
@@ -39,6 +45,10 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
 
         public void setReport(Runnable report) {
             this.report = report;
+        }
+
+        public void updateSlider() {
+            this.value = valueToSlider(this.min, this.max, this.entry.get());
         }
 
         @Override

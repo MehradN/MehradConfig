@@ -25,7 +25,7 @@ public class NumberEntry extends DefaultValueEntry<Integer> {
      * @param defaultValue the default value of the entry.
      */
     public NumberEntry(String name, int min, int max, int defaultValue) {
-        super(name, defaultValue);
+        super(name, trim(defaultValue, min, max));
         if (max < min)
             throw new IllegalArgumentException("Min cannot be more than max!");
         this.min = min;
@@ -64,7 +64,11 @@ public class NumberEntry extends DefaultValueEntry<Integer> {
 
     @Override
     protected Integer trim(Integer value) {
-        return Mth.clamp(value, this.min, this.max);
+        return trim(value, this.min, this.max);
+    }
+
+    private static int trim(int value, int min, int max) {
+        return Mth.clamp(value, min, max);
     }
 
     public record NumberTypeInfo(int min, int max) implements EntryTypeInfo<Integer> {

@@ -15,18 +15,18 @@ public abstract class DefaultValueEntry <T> implements ConfigEntry<T> {
 
     /**
      * @param name         the name of the entry
-     * @param defaultValue the default value of the entry.
+     * @param defaultValue the default value of the entry, it is expected to be pre-trimmed
      */
     protected DefaultValueEntry(String name, @NotNull T defaultValue) {
         this.name = name;
-        this.defaultValue = trim(defaultValue);
+        this.defaultValue = defaultValue;
         this.value = this.defaultValue;
     }
 
     /**
      * Creates an optional entry from this config entry.
      *
-     * @param fallbackEntry the config entry that should provide the default value
+     * @param fallbackEntry the config entry that should provide the default value, avoid using a config entry from the same config
      * @return an optional entry
      * @see OptionalEntry
      */
