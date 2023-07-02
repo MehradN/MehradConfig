@@ -17,11 +17,12 @@ public class ModMenuEntrypoint implements ModMenuApi {
     @Override
     public Map<String, ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
         Map<String, ConfigScreenFactory<?>> factories = new HashMap<>();
-        for (Map.Entry<String, Supplier<MehradConfig>> entry : ModMenuConfig.modMenuConfigs.entrySet()) {
-            String modId = entry.getKey();
-            Supplier<MehradConfig> configConstructor = entry.getValue();
-            ConfigScreenBuilder configScreenBuilder = ModMenuConfigScreen.modMenuScreenBuilders.getOrDefault(modId, DEFAULT);
-            factories.put(entry.getKey(), (parent) -> configScreenBuilder.buildAndLoad(configConstructor, parent));
+        for (String modId : ModMenuConfig.modMenuConfigs.keySet()) {
+            factories.put(modId, (parent) -> {
+                Supplier<MehradConfig> configConstructor = ModMenuConfig.modMenuConfigs.get(modId);
+                ConfigScreenBuilder configScreenBuilder = ModMenuConfigScreen.modMenuScreenBuilders.getOrDefault(modId, DEFAULT);
+                return configScreenBuilder.buildAndLoad(configConstructor, parent);
+            });
         }
         return factories;
     }
