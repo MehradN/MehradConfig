@@ -26,6 +26,7 @@ public class EnumWidget <T extends Enum<T>> extends ConfigEntryWidget<T> {
         ((Widget<?>)this.widget).setReport(this::reportValueChange);
     }
 
+    @Environment(EnvType.CLIENT)
     private static class Widget <T extends Enum<T>> extends AbstractButton {
         private final Class<T> enumClass;
         private final ConfigEntry<T> entry;

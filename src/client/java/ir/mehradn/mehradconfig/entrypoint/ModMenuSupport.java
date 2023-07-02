@@ -3,6 +3,8 @@ package ir.mehradn.mehradconfig.entrypoint;
 import ir.mehradn.mehradconfig.MehradConfig;
 import ir.mehradn.mehradconfig.gui.ConfigScreenBuilder;
 import ir.mehradn.mehradconfig.gui.screen.MehradConfigScreen;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +12,10 @@ import java.util.function.Supplier;
 
 /**
  * This class is used for registering your configs for ModMenu.
+ *
  * @see #register
  */
+@Environment(EnvType.CLIENT)
 public class ModMenuSupport {
     static final Map<String, ConfigScreenLoader> screenBuilders = new HashMap<>();
 
@@ -27,6 +31,7 @@ public class ModMenuSupport {
         screenBuilders.put(modId, new ConfigScreenLoader(configConstructor, configScreenBuilder));
     }
 
+    @Environment(EnvType.CLIENT)
     record ConfigScreenLoader(Supplier<MehradConfig> configConstructor, ConfigScreenBuilder configScreenBuilder) {
         MehradConfigScreen build(Screen parentScreen) {
             return this.configScreenBuilder.buildAndLoad(this.configConstructor, parentScreen);

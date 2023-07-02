@@ -69,6 +69,7 @@ public abstract class ConfigEntryWidget <T> {
      * @see ConfigEntry#getTranslatedTitle
      * @see ConfigEntry#getTranslatedValue
      */
+    @Environment(EnvType.CLIENT)
     public interface TextProvider {
         /**
          * The returned text should be based on the current value of the entry,

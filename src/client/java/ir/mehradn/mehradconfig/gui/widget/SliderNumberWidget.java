@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 
 /**
- * SliderNumberWidget is a widget for displaying and updating integer config entries in gui using an slider.
+ * SliderNumberWidget is a widget for displaying and updating integer config entries in gui using a slider.
  * It works for config entries that have a constant min and max.
  */
 @Environment(EnvType.CLIENT)
@@ -29,6 +29,7 @@ public class SliderNumberWidget extends ConfigEntryWidget<Integer> {
         ((Widget)this.widget).updateSlider();
     }
 
+    @Environment(EnvType.CLIENT)
     private static class Widget extends AbstractSliderButton {
         private final int min;
         private final int max;

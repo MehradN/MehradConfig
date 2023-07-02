@@ -1,6 +1,5 @@
 package ir.mehradn.mehradconfig.gui.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import ir.mehradn.mehradconfig.MehradConfig;
 import ir.mehradn.mehradconfig.entry.ConfigEntry;
 import ir.mehradn.mehradconfig.gui.ConfigScreenBuilder;
@@ -8,6 +7,7 @@ import ir.mehradn.mehradconfig.gui.EntryWidgetFactory;
 import ir.mehradn.mehradconfig.gui.widget.ConfigEntryWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -104,7 +104,7 @@ public abstract class MehradConfigScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         Component description = Component.empty();
         for (int i = 0; i < this.entryWidgets.size(); i++) {
             ConfigEntryWidget<?> widget = this.entryWidgets.get(i);
@@ -115,9 +115,9 @@ public abstract class MehradConfigScreen extends Screen {
         }
         this.hoverText.setMessage(description);
 
-        renderBackground(poseStack);
-        drawCenteredString(poseStack, this.font, this.title, this.width / 2, 15, 0xFFFFFF);
-        super.render(poseStack, mouseX, mouseY, partialTick);
+        renderBackground(guiGraphics);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 15, 0xFFFFFF);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     @Override
