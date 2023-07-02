@@ -1,109 +1,108 @@
 plugins {
-	id 'fabric-loom' version '1.2-SNAPSHOT'
-	id 'maven-publish'
+    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'maven-publish'
 }
 
 version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+    archivesName = project.archives_base_name
 }
 
 loom {
-	splitEnvironmentSourceSets()
+    splitEnvironmentSourceSets()
 
-	mods {
-		"mehrad-config" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+    mods {
+        "mehrad-config" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 }
 
 sourceSets {
-	testmod {
-		compileClasspath += main.compileClasspath
-		compileClasspath += client.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-		runtimeClasspath += client.runtimeClasspath
-	}
+    testmod {
+        compileClasspath += main.compileClasspath
+        compileClasspath += client.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        runtimeClasspath += client.runtimeClasspath
+    }
 }
 
 loom {
-	runs {
-		testmod {
-			client()
-			name = "TestMod Client"
-			source sourceSets.testmod
-		}
-	}
+    runs {
+        testmod {
+            client()
+            name = "TestMod Client"
+            source sourceSets.testmod
+        }
+    }
 }
 
 repositories {
-	maven {
-		name 'ParchmentMC'
-		url 'https://maven.parchmentmc.org'
-	}
-	maven {
-		url 'https://maven.terraformersmc.com/releases'
-	}
+    maven {
+        name 'ParchmentMC'
+        url 'https://maven.parchmentmc.org'
+    }
+    maven { url 'https://maven.terraformersmc.com/releases' }
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.layered() {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-${project.parchment_version}@zip")
-	}
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.parchment_version}@zip")
+    }
 
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modCompileOnly ("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive false }
+    modLocalRuntime ("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive false }
 
-	testmodImplementation sourceSets.main.output
-	testmodImplementation sourceSets.client.output
+    testmodImplementation sourceSets.main.output
+    testmodImplementation sourceSets.client.output
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+    it.options.release = 17
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }
 
 // configure the maven publication
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
 }
