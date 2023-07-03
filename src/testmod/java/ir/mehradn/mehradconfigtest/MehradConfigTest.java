@@ -1,6 +1,7 @@
 package ir.mehradn.mehradconfigtest;
 
-import ir.mehradn.mehradconfig.entrypoint.ModMenuSupport;
+import ir.mehradn.mehradconfig.entrypoint.ModMenuConfig;
+import ir.mehradn.mehradconfig.entrypoint.ModMenuConfigScreen;
 import ir.mehradn.mehradconfig.gui.ConfigScreenBuilder;
 import ir.mehradn.mehradconfigtest.config.TestConfig;
 import net.fabricmc.api.ModInitializer;
@@ -25,6 +26,7 @@ public class MehradConfigTest implements ModInitializer {
             //.setOnSave((minecraft, thisScreen, parentScreen) -> { LOGGER.info("SAVED!"); minecraft.setScreen(parentScreen); })
             //.setOnCancel((minecraft, thisScreen, parentScreen) -> { LOGGER.info("CANCELED!"); minecraft.setScreen(parentScreen); })
             ;
-        ModMenuSupport.register(MOD_ID, TestConfig::new, builder);
+        ModMenuConfig.register(MOD_ID, TestConfig::new);
+        ModMenuConfigScreen.register(MOD_ID, builder);
     }
 }

@@ -23,6 +23,7 @@ public class BooleanWidget extends ConfigEntryWidget<Boolean> {
         ((Widget)this.widget).setReport(this::reportValueChange);
     }
 
+    @Environment(EnvType.CLIENT)
     private static class Widget extends AbstractButton {
         private final ConfigEntry<Boolean> entry;
         private final TextProvider textProvider;
