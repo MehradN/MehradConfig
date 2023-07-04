@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * OptionalEntry is an implementation of {@link ConfigEntry}, Its default value is based on another {@code ConfigEntry}.
@@ -13,8 +14,22 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OptionalEntry <T> implements ConfigEntry<T> {
     private final ConfigEntry<T> optionalEntry;
-    private final ConfigEntry<T> fallbackEntry;
+    private @Nullable ConfigEntry<T> fallbackEntry;
     private boolean hasValue;
+
+    /**
+     * The lazy constructor. If you use this constructor, you must call {@link #setFallbackEntry} as soon as possible before using any of the other
+     * methods, doing otherwise will cause unexpected behaviours.
+     * <p>
+     * <b>Note:</b> Always at the initial state after the constructor, the value of the optional entry is ignored.
+     *
+     * @param optionalEntry the config entry that should hold the optional value
+     */
+    public OptionalEntry(ConfigEntry<T> optionalEntry) {
+        this.optionalEntry = optionalEntry;
+        this.fallbackEntry = null;
+        this.hasValue = false;
+    }
 
     /**
      * The main constructor.
@@ -24,10 +39,20 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
      * @param optionalEntry the config entry that should hold the optional value
      * @param fallbackEntry the config entry that should provide the default value, avoid using a config entry from the same config
      */
-    public OptionalEntry(ConfigEntry<T> optionalEntry, ConfigEntry<T> fallbackEntry) {
-        this.optionalEntry = optionalEntry;
+    public OptionalEntry(ConfigEntry<T> optionalEntry, @NotNull ConfigEntry<T> fallbackEntry) {
+        this(optionalEntry);
+        setFallbackEntry(fallbackEntry);
+    }
+
+    /**
+     * Sets the fallback entry. <b>This method must be called after the lazy constructor and only once.</b>
+     *
+     * @param fallbackEntry the config entry that should provide the default value, avoid using a config entry from the same config
+     */
+    public void setFallbackEntry(@NotNull ConfigEntry<T> fallbackEntry) {
+        if (this.fallbackEntry != null)
+            throw new IllegalStateException("This method must be called after the lazy constructor and only once!");
         this.fallbackEntry = fallbackEntry;
-        this.hasValue = false;
     }
 
     /**
@@ -48,6 +73,8 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
 
     @Override
     public T get() {
+        if (this.fallbackEntry == null)
+            throw new IllegalStateException("setFallbackEntry must be called before this method!");
         if (this.hasValue)
             return this.optionalEntry.get();
         else
