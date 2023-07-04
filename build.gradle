@@ -10,6 +10,10 @@ base {
     archivesName = project.archives_base_name
 }
 
+java {
+    withSourcesJar()
+}
+
 loom {
     splitEnvironmentSourceSets()
 
@@ -73,12 +77,22 @@ processResources {
     }
 }
 
+javadoc {
+    options {
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    source(sourceSets.main.allJava)
+    source(sourceSets.client.allJava)
+
+    classpath = files(sourceSets.main.compileClasspath, sourceSets.client.compileClasspath)
+}
+
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 17
 }
 
 java {
-    withSourcesJar()
     withJavadocJar()
 
     sourceCompatibility = JavaVersion.VERSION_17
