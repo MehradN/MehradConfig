@@ -216,7 +216,7 @@ public abstract class MehradConfig {
 
     @SuppressWarnings("unchecked")
     private <T> void sameTypeEntry(ConfigEntry<?> entry1, ConfigEntry<?> entry2, SameTypeEntryAction<T> action) {
-        if (!entry1.entryTypeInfo().typeClass().equals(entry2.entryTypeInfo().getClass()))
+        if (!entry1.entryTypeInfo().typeClass().equals(entry2.entryTypeInfo().typeClass()))
             throw new IllegalArgumentException("Mismatching entry types, Invalid argument type!");
         action.run((ConfigEntry<T>)entry1, (ConfigEntry<T>)entry2);
     }
