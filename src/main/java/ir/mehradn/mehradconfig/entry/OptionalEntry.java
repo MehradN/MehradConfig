@@ -129,6 +129,7 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
 
     @Override
     public void fromJson(JsonElement json) {
+        this.hasValue = true;
         this.optionalEntry.fromJson(json);
     }
 
@@ -139,6 +140,7 @@ public class OptionalEntry <T> implements ConfigEntry<T> {
 
     @Override
     public void readFromBuf(FriendlyByteBuf buf) {
+        this.hasValue = true;
         this.optionalEntry.readFromBuf(buf);
     }
 

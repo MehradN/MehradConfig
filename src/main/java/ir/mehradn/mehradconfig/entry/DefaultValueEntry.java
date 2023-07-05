@@ -28,10 +28,21 @@ public abstract class DefaultValueEntry <T> implements ConfigEntry<T> {
      *
      * @param fallbackEntry the config entry that should provide the default value, avoid using a config entry from the same config
      * @return an optional entry
-     * @see OptionalEntry
+     * @see OptionalEntry#OptionalEntry(ConfigEntry, ConfigEntry)
      */
     public OptionalEntry<T> makeOptional(ConfigEntry<T> fallbackEntry) {
         return new OptionalEntry<>(this, fallbackEntry);
+    }
+
+    /**
+     * Creates an optional entry from this config entry. If you use this overload, you must call {@link OptionalEntry#setFallbackEntry} as soon as
+     * possible before using any of the other methods, doing otherwise will cause unexpected behaviours.
+     *
+     * @return an optional entry
+     * @see OptionalEntry#OptionalEntry(ConfigEntry)
+     */
+    public OptionalEntry<T> makeOptional() {
+        return new OptionalEntry<>(this);
     }
 
     @Override
